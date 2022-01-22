@@ -12,28 +12,28 @@ enum CurrentLight{
 }
 
 struct ContentView: View {
-    private var circleRed = CircleView(color: .red)
-    private var circleYellow = CircleView(color: .yellow)
-    private var circleGreen = CircleView(color: .green)
+    private var circleRed = CircleView(color: .red, activeOpacity: false)
+    private var circleYellow = CircleView(color: .yellow, activeOpacity: false)
+    private var circleGreen = CircleView(color: .green, activeOpacity: false)
 
-    private let opacityOn = 1.0
-    private let opacityOff = 0.3
-    
+    @State private var nameTap = "Start"
     @State private var currentLight = CurrentLight.red
     
     private func opacityActiveOn() {
+        nameTap = "Next"
+        
         switch currentLight {
         case .red:
-            circleGreen.opacity(opacityOff)
-            circleRed.opacity(opacityOn)
+            circleGreen.activeOpacity = false
+            circleRed.activeOpacity = true
             currentLight = .yellow
         case .yellow:
-            circleRed.opacity(opacityOff)
-            circleYellow.opacity(opacityOn)
+            circleRed.activeOpacity = false
+            circleYellow.activeOpacity = true
             currentLight = .green
         case .green:
-            circleYellow.opacity(opacityOff)
-            circleGreen.opacity(opacityOn)
+            circleYellow.activeOpacity = false
+            circleGreen.activeOpacity = true
             currentLight = .red
         }
     }
@@ -44,25 +44,23 @@ struct ContentView: View {
                 .ignoresSafeArea()
             VStack {
                 circleRed
-                    .opacity(opacityOff)
                     .padding(.top)
                 circleYellow
-                    .opacity(opacityOff)
                     .padding(.top)
                 circleGreen
-                    .opacity(opacityOff)
                     .padding(.top)
                 Spacer()
-                Button(action: {
-                    self.opacityActiveOn()
-                }, label: {
-                    Text("Start")
+                Button {
+                    opacityActiveOn()
+                } label: {
+                    Text(nameTap)
                         .font(.title)
                         .fontWeight(.semibold)
-                        
-                })
-                .buttonStyle(.borderedProminent)
-                .buttonBorderShape(.capsule)
+                }
+                .frame(width: 250, height: 50)
+                .background(Color.blue)
+                .cornerRadius(15)
+                .overlay(RoundedRectangle(cornerRadius: 15).stroke(Color.white,lineWidth: 3))
                 .foregroundColor(.white)
             }
         }
