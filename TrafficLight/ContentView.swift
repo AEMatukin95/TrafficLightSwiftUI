@@ -42,13 +42,10 @@ struct ContentView: View {
         ZStack {
             Color.black
                 .ignoresSafeArea()
-            VStack {
+            VStack(spacing: 20) {
                 circleRed
-                    .padding(.top)
                 circleYellow
-                    .padding(.top)
                 circleGreen
-                    .padding(.top)
                 Spacer()
                 Button {
                     opacityActiveOn()
